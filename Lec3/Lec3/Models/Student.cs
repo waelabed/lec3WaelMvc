@@ -10,9 +10,10 @@ namespace HomeWorkLec2.Models
     {
         [Key]
         public int Id { get; set; }
-        public String name { get; set; }
+        private String _name { get; set; }
+        public String name { get { return _name; } set { _name = value.Trim(); } }
         public int Degree { get; set; }
-        public virtual  Lesson LessonId { get; set; }
+        public virtual Lesson LessonId { get; set; }
         public int Age { get; set; }
         public DateTime DateAdd { get; set; }
 

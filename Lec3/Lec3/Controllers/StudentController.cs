@@ -1,4 +1,5 @@
 ﻿using HomeWorkLec2.Models;
+using Lec3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,33 @@ namespace HomeWorkLec2.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: Student
 
-        public ActionResult Index(string name)
+        public ActionResult Index(string StudentName, string LessonName)
         {
+            string name =   ((StudentName));
+            string lesson = (LessonName);
+          
             List<Models.Student> students = new List<Models.Student>();
-            if (string.IsNullOrEmpty(name))
+
+            if (!string.IsNullOrEmpty( name)&& !string.IsNullOrEmpty(lesson))
             {
-                students = db.Students.ToList();
+                students = db.Students.Where(fun => fun.name == name && fun.LessonId.Name==lesson).ToList();
             }
-            else
+            else if (!string.IsNullOrEmpty(name)&& string.IsNullOrEmpty(lesson))
             {
                 students = db.Students.Where(fun => fun.name == name).ToList();
             }
+            else if (string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(lesson))
+            {
+                students = db.Students.Where(fun => fun.LessonId.Name == lesson).ToList();
+            }
+            else
+            {
+                students = db.Students.ToList();
+            }
+
             return View(students);
         }
+
         public ActionResult Create()
         {
             var lesson = db.Lessons.ToList();
